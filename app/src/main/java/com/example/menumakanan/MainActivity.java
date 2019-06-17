@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 listMenu.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     MenuModel menuModel = ds.getValue(MenuModel.class);
+                    assert menuModel != null;
+                    menuModel.setId(ds.getKey());
                     listMenu.add(menuModel);
                 }
                 adapter.setData(listMenu);

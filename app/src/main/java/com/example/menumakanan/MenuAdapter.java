@@ -1,7 +1,9 @@
 package com.example.menumakanan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +36,20 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MenuAdapter.ViewHolder viewHolder, int i) {
-        MenuModel menuModel = listMenu.get(i);
+        final MenuModel menuModel = listMenu.get(i);
 
         viewHolder.tvNamaMenu.setText(menuModel.getNamaMenu());
         viewHolder.tvHarga.setText(String.valueOf(menuModel.getHarga()));
         viewHolder.tvDetailMenu.setText(menuModel.getDetailMenu());
+        viewHolder.cvItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AddMenuActivity.class);
+                intent.putExtra("isEdit", true);
+                intent.putExtra("data_menu", menuModel);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -47,10 +58,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        CardView cvItem;
         ImageView ivMenu;
         TextView tvNamaMenu, tvHarga, tvDetailMenu;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            cvItem = itemView.findViewById(R.id.cv_item);
             ivMenu = itemView.findViewById(R.id.iv_menu);
             tvNamaMenu = itemView.findViewById(R.id.tv_nama_menu);
             tvHarga = itemView.findViewById(R.id.tv_harga);
